@@ -15,8 +15,6 @@ A modern, AI-powered note-taking application designed specifically for developer
 ![Better Auth](https://img.shields.io/badge/Better_Auth-1.3.4-8B5CF6?style=flat&logo=auth0&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16+-4169E1?style=flat&logo=postgresql&logoColor=white)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat)](https://opensource.org/licenses/MIT)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 [![Made with ❤️](https://img.shields.io/badge/Made%20with-❤️-ff1744.svg?style=flat)](https://github.com/rifk7s/devnote)
 
 </div>
