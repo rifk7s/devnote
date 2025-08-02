@@ -1,4 +1,4 @@
-import { Logout } from "@/components/logout";
+import { CreateNotebookButton } from "@/components/create-notebook-button";
 import { PageWrapper } from "@/components/page-wrapper";
 import { getNotebooks } from "@/server/notebooks";
 
@@ -7,7 +7,9 @@ export default async function Page() {
 
   return (
     <PageWrapper breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }]}>
-      <h1>Dashboard</h1>
+      <h1>Notebooks</h1>
+
+      <CreateNotebookButton />
 
       {notebooks.success &&
         notebooks?.notebooks?.map((notebook) => (
@@ -17,7 +19,7 @@ export default async function Page() {
       {notebooks.success && notebooks?.notebooks?.length === 0 && (
         <div>No notebooks found</div>
       )}
-      <Logout />
+      
       {/* Add more dashboard content here */}
     </PageWrapper>
   );
