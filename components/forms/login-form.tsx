@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import { z } from "zod"
+import { z } from "zod";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 import {
   Form,
@@ -23,35 +23,41 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { signInUser } from "@/server/users"
-import { useState } from "react"
-import { toast } from "sonner"
-import { Loader2 } from "lucide-react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-
+} from "@/components/ui/form";
+import { signInUser } from "@/server/users";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 
 const formSchema = z.object({
   email: z.email(),
   password: z.string().min(8),
-})
+});
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const router = useRouter()
-  
-  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       password: "",
     },
-  })
+  });
+
+  const signIn = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard",
+    });
+  };
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -73,7 +79,6 @@ export function LoginForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-
       <Card>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
@@ -102,7 +107,6 @@ export function LoginForm({
                   />
                 </div>
                 <div className="grid gap-3">
-
                   <FormField
                     control={form.control}
                     name="password"
@@ -111,7 +115,7 @@ export function LoginForm({
                         <div className="flex items-center">
                           <FormLabel>Password</FormLabel>
                           <Link
-                          href="/forgot-password"
+                            href="/forgot-password"
                             className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                           >
                             Forgot your password?
@@ -119,7 +123,11 @@ export function LoginForm({
                         </div>
 
                         <FormControl>
-                          <Input type="password" placeholder="••••••••" {...field} />
+                          <Input
+                            type="password"
+                            placeholder="••••••••"
+                            {...field}
+                          />
                         </FormControl>
 
                         <FormMessage />
@@ -129,9 +137,18 @@ export function LoginForm({
                 </div>
                 <div className="flex flex-col gap-3">
                   <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? <Loader2 className="size-4 animate-spin" /> : "Login"}
+                    {isLoading ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      "Login"
+                    )}
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={signIn}
+                    type="button"
+                  >
                     Login with Google
                   </Button>
                 </div>
@@ -147,5 +164,5 @@ export function LoginForm({
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
