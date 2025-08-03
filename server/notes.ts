@@ -28,13 +28,13 @@ export const getNoteById = async (id: string) => {
     }
 };
 
-export const updateNote = async (id: string, values: InsertNote) => {
-  try {
-    await db.update(notes).set(values).where(eq(notes.id, id));
-    return { success: true, message: "Note updated successfully" };
-  } catch {
-    return { success: false, message: "Failed to update note" };
-  }
+export const updateNote = async (id: string, values: Partial<InsertNote>) => {
+    try {
+        await db.update(notes).set(values).where(eq(notes.id, id));
+        return { success: true, message: "Notebook updated successfully" };
+    } catch {
+        return { success: false, message: "Failed to update notebook" };
+    }
 };
 
 export const deleteNote = async (id: string) => {
