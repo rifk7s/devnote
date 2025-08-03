@@ -34,8 +34,8 @@ export async function AppSidebar({
         title: notebook.name,
         url: `/dashboard/${notebook.id}`,
         items: notebook.notes.map((note) => ({
-          title: note.title,
-          url: `/dashboard/${notebook.id}/${note.id}`,
+          title: note?.title,
+          url: `/dashboard/note/${note.id}`,
         })),
       })) ?? []),
     ],
@@ -66,7 +66,9 @@ export async function AppSidebar({
               >
                 <CollapsibleTrigger>
                   {item.title}{" "}
-                  <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                  {item.items.length > 0 && (
+                    <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                  )}  
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
               <CollapsibleContent>
