@@ -17,7 +17,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -37,6 +36,7 @@ const formSchema = z.object({
 
 export const CreateNotebookButton = () => {
   const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -53,23 +53,23 @@ export const CreateNotebookButton = () => {
       const userId = (await authClient.getSession()).data?.user.id;
 
       if (!userId) {
-        toast.error("You must be logged in to create a notebook.");
+        toast.error("You must be logged in to create a notebook");
         return;
       }
+
       const response = await createNotebook({
         ...values,
         userId,
       });
-
       if (response.success) {
         form.reset();
-        toast.success("Notebook created successfully!");
+        toast.success("Notebook created successfully");
         router.refresh();
         setIsOpen(false);
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to create notebook");
     } finally {
       setIsLoading(false);
@@ -88,6 +88,7 @@ export const CreateNotebookButton = () => {
             Create a new notebook to store your notes.
           </DialogDescription>
         </DialogHeader>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -99,7 +100,6 @@ export const CreateNotebookButton = () => {
                   <FormControl>
                     <Input placeholder="My Notebook" {...field} />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
