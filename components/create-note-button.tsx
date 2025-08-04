@@ -17,20 +17,17 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createNotebook } from "@/server/notebooks";
-import { createNote } from "@/server/notes";
 import { toast } from "sonner";
-import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { createNote } from "@/server/notes";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -61,13 +58,13 @@ export const CreateNoteButton = ({ notebookId }: { notebookId: string }) => {
 
       if (response.success) {
         form.reset();
-        toast.success("Note created successfully!");
+        toast.success("Note created successfully");
         router.refresh();
         setIsOpen(false);
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to create note");
     } finally {
       setIsLoading(false);
@@ -83,9 +80,10 @@ export const CreateNoteButton = ({ notebookId }: { notebookId: string }) => {
         <DialogHeader>
           <DialogTitle>Create Note</DialogTitle>
           <DialogDescription>
-            Create a new note to store your thoughts.
+            Create a new note to store your notes.
           </DialogDescription>
         </DialogHeader>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -97,7 +95,6 @@ export const CreateNoteButton = ({ notebookId }: { notebookId: string }) => {
                   <FormControl>
                     <Input placeholder="My Note" {...field} />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
